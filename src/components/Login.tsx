@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Logo } from './Logo';
 import { authService } from '../services/auth';
 import type { UserType } from '../types/database';
 import { AuthAtmosphere } from './site/AuthAtmosphere';
@@ -11,7 +12,7 @@ interface LoginProps {
   onLoginSuccess: (userType: UserType) => void;
 }
 
-export function Login({ onClose, onSignUp, onLoginSuccess }: LoginProps) {
+export function Login({ onSignUp, onLoginSuccess }: LoginProps) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -79,92 +80,85 @@ export function Login({ onClose, onSignUp, onLoginSuccess }: LoginProps) {
       <div className="auth__shell">
         <div className="auth__panel">
           <div className="login__header">
-            <div className="login__logo">
-              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                <rect width="36" height="36" rx="10" fill="url(#gl)"/>
-                <path d="M18 8a10 10 0 0 0-3.16 19.48A8 8 0 0 1 18 20a8 8 0 0 1 3.16 7.48A10 10 0 0 0 18 8Z" fill="#fff" opacity="0.9"/>
-                <path d="M18 20a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="url(#gl)"/>
-                <defs>
-                  <linearGradient id="gl" x1="0" y1="0" x2="36" y2="36">
-                    <stop stopColor="#FF1D68"/>
-                    <stop offset="1" stopColor="#7C3AED"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <h1 className="login__title">Lowkey Gem</h1>
-            <p className="login__subtitle">Find fair work, grow your career</p>
+            <Logo iconSize={48} textColor="#f6f1ea" />
+            <p className="login__subtitle">Log in to continue</p>
           </div>
 
-          <motion.div
-            className="login__card"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {error && (
-              <motion.div className="login__error" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
-                {error}
-              </motion.div>
-            )}
+          {error && (
+            <motion.div
+              className="login__error"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {error}
+            </motion.div>
+          )}
 
-            <form onSubmit={handleSubmit}>
-              <div className="login__field">
-                <div className="login__input-wrap">
-                  <Mail size={18} />
-                  <input
-                    type="text"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="login__input"
-                    placeholder="Email"
-                    required
-                    autoCapitalize="none"
-                    autoComplete="email"
-                  />
-                </div>
+          <form onSubmit={handleSubmit} className="login__form">
+            <div className="login__field">
+              <label className="login__label">Email</label>
+              <div className="login__input-wrap">
+                <input
+                  type="text"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="login__input"
+                  placeholder="your@email.com"
+                  required
+                  autoCapitalize="none"
+                  autoComplete="email"
+                />
               </div>
+            </div>
 
-              <div className="login__field">
-                <div className="login__input-wrap">
-                  <Lock size={18} />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    value={formData.password}
-                    onChange={(e) => handleInputChange('password', e.target.value)}
-                    className="login__input"
-                    placeholder="Password"
-                    required
-                    autoCapitalize="none"
-                    autoComplete="current-password"
-                  />
-                  <button type="button" className="login__eye" onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
+            <div className="login__field">
+              <label className="login__label">Password</label>
+              <div className="login__input-wrap">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  className="login__input"
+                  placeholder="Enter your password"
+                  required
+                  autoCapitalize="none"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  className="login__eye"
+                  onClick={() => setShowPassword(!showPassword)}
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
-
               <button
-                type="submit"
-                className="login__submit"
-                disabled={!formData.email || !formData.password || isLoading}
+                type="button"
+                className="login__forgot"
+                onClick={handleForgotPassword}
+                disabled={isLoading}
               >
-                {isLoading ? (
-                  <><Loader2 size={20} className="animate-spin" /> Logging in…</>
-                ) : (
-                  'Log in'
-                )}
+                Forgot password?
               </button>
-            </form>
+            </div>
 
-            <button type="button" className="login__link" onClick={handleForgotPassword} disabled={isLoading}>
-              Forgot password?
+            <button
+              type="submit"
+              className="login__submit"
+              disabled={!formData.email || !formData.password || isLoading}
+            >
+              {isLoading ? (
+                <><Loader2 size={20} className="animate-spin" /> Logging in…</>
+              ) : (
+                'Log in'
+              )}
             </button>
-          </motion.div>
+          </form>
 
           <p className="login__meta">
             Don't have an account?{' '}
-            <button className="login__link login__link--bold" onClick={onSignUp}>Sign up</button>
+            <button className="login__signup" onClick={onSignUp}>Sign up</button>
           </p>
         </div>
       </div>
