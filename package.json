@@ -13,6 +13,7 @@
             "@capacitor/keyboard": "^8.0.3",
             "@capacitor/splash-screen": "^8.0.1",
             "@capacitor/status-bar": "^8.0.2",
+            "@napi-rs/canvas": "^1.0.0",
             "@react-three/drei": "^9.122.0",
             "@react-three/fiber": "^8.18.0",
             "@react-three/postprocessing": "^2.19.1",
@@ -30,6 +31,7 @@
             "@types/react-dom": "^19.2.3",
             "@vitejs/plugin-react-swc": "^3.10.2",
             "playwright-core": "^1.60.0",
+            "sharp": "^0.34.5",
             "typescript": "^5.9.3",
             "vite": "6.3.5"
       },

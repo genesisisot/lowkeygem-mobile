@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2, ArrowUpRight } from 'lucide-react';
-import { Logo } from './Logo';
+import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { authService } from '../services/auth';
 import type { UserType } from '../types/database';
-import { AuthAtmosphere, AuthBrandPanel } from './site/AuthAtmosphere';
+import { AuthAtmosphere } from './site/AuthAtmosphere';
 import '../styles/landing.css';
 
 interface LoginProps {
-  onClose: () => void;
   onSignUp: () => void;
   onLoginSuccess: (userType: UserType) => void;
 }
@@ -44,9 +42,10 @@ export function Login({ onClose, onSignUp, onLoginSuccess }: LoginProps) {
       }
 
       onLoginSuccess(profile.user_type as UserType);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Auth error:', err);
-      setError(err.message || 'Login failed. Please check your credentials and try again.');
+      const message = err instanceof Error ? err.message : 'Login failed. Please check your credentials and try again.';
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -78,89 +77,95 @@ export function Login({ onClose, onSignUp, onLoginSuccess }: LoginProps) {
       <AuthAtmosphere />
 
       <div className="auth__shell">
-        <AuthBrandPanel title="Welcome back to fair work." />
-
         <div className="auth__panel">
-          <div className="auth__topbar">
-            <div className="auth__brand-mobile">
-              <Logo textColor="text-white" />
+          <div className="login__header">
+            <div className="login__logo">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                <rect width="36" height="36" rx="10" fill="url(#gl)"/>
+                <path d="M18 8a10 10 0 0 0-3.16 19.48A8 8 0 0 1 18 20a8 8 0 0 1 3.16 7.48A10 10 0 0 0 18 8Z" fill="#fff" opacity="0.9"/>
+                <path d="M18 20a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="url(#gl)"/>
+                <defs>
+                  <linearGradient id="gl" x1="0" y1="0" x2="36" y2="36">
+                    <stop stopColor="#FF1D68"/>
+                    <stop offset="1" stopColor="#7C3AED"/>
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
-            <button className="lk__navlink" onClick={onClose}>← Back to site</button>
+            <h1 className="login__title">Lowkey Gem</h1>
+            <p className="login__subtitle">Find fair work, grow your career</p>
           </div>
 
           <motion.div
-            className="auth__card"
-            initial={{ opacity: 0, y: 26 }}
+            className="login__card"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="auth__title">Log in</h1>
-            <p className="auth__subtitle">Continue discovering hidden gems.</p>
-
             {error && (
-              <motion.div className="auth__error" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
+              <motion.div className="login__error" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}>
                 {error}
               </motion.div>
             )}
 
             <form onSubmit={handleSubmit}>
-              <div className="auth__field">
-                <label className="auth__label">Email or phone</label>
-                <div className="auth__input-wrap">
+              <div className="login__field">
+                <div className="login__input-wrap">
                   <Mail size={18} />
                   <input
                     type="text"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="auth__input"
-                    placeholder="your.email@example.com"
+                    className="login__input"
+                    placeholder="Email"
                     required
+                    autoCapitalize="none"
+                    autoComplete="email"
                   />
                 </div>
               </div>
 
-              <div className="auth__field">
-                <label className="auth__label">Password</label>
-                <div className="auth__input-wrap">
+              <div className="login__field">
+                <div className="login__input-wrap">
                   <Lock size={18} />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
                     onChange={(e) => handleInputChange('password', e.target.value)}
-                    className="auth__input"
-                    placeholder="Enter your password"
+                    className="login__input"
+                    placeholder="Password"
                     required
+                    autoCapitalize="none"
+                    autoComplete="current-password"
                   />
-                  <button type="button" className="auth__eye" onClick={() => setShowPassword(!showPassword)}>
+                  <button type="button" className="login__eye" onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
               </div>
 
-              <div style={{ textAlign: 'right', marginTop: 12 }}>
-                <button type="button" className="auth__link" onClick={handleForgotPassword} disabled={isLoading}>
-                  Forgot password?
-                </button>
-              </div>
-
               <button
                 type="submit"
-                className="auth__submit"
+                className="login__submit"
                 disabled={!formData.email || !formData.password || isLoading}
               >
                 {isLoading ? (
-                  <><Loader2 size={18} className="animate-spin" /> Logging in…</>
+                  <><Loader2 size={20} className="animate-spin" /> Logging in…</>
                 ) : (
-                  <>Log in <ArrowRight size={18} /></>
+                  'Log in'
                 )}
               </button>
             </form>
 
-            <p className="auth__meta">
-              Don’t have an account?{' '}
-              <button className="auth__link" onClick={onSignUp}>Sign up <ArrowUpRight size={13} style={{ display: 'inline', verticalAlign: 'middle' }} /></button>
-            </p>
+            <button type="button" className="login__link" onClick={handleForgotPassword} disabled={isLoading}>
+              Forgot password?
+            </button>
           </motion.div>
+
+          <p className="login__meta">
+            Don't have an account?{' '}
+            <button className="login__link login__link--bold" onClick={onSignUp}>Sign up</button>
+          </p>
         </div>
       </div>
     </div>

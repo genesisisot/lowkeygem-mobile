@@ -26,7 +26,6 @@ function LoginPage() {
 
   return (
     <Login
-      onClose={() => navigate('/login')}
       onSignUp={() => navigate('/signup')}
       onLoginSuccess={(userType) => {
         navigate(`/${userType}/dashboard`)
