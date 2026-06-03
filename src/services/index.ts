@@ -1,0 +1,12 @@
+// Export all services for easy importing
+export { profilesService, skillProfilesService } from './profiles'
+export { jobsService } from './jobs'
+export { matchesService, swipesService, handleSwipe } from './matches'
+export { messagesService } from './messages'
+export { walletService } from './wallet'
+export { kycService } from './kyc'
+export { savedService } from './saved'
+export { notificationsService } from './notifications'
+export { storageService } from './storage'
+export { reportsService } from './reports'
+export { statsService } from './stats'
