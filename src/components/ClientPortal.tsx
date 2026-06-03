@@ -7,7 +7,6 @@ import {
   Search,
   Briefcase,
   Bell,
-  Menu,
   X,
   User,
   Settings,
@@ -192,7 +191,6 @@ export function ClientPortal({ onLogout, defaultView }: ClientPortalProps) {
     _setCurrentView(view);
   }, []);
   const [currentFreelancerIndex, setCurrentFreelancerIndex] = useState(0);
-  const [showMenu, setShowMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [savedFreelancers, setSavedFreelancers] = useState<string[]>([]);
   const [selectedChat, _setSelectedChat] = useState<any>(null);
@@ -1963,16 +1961,8 @@ export function ClientPortal({ onLogout, defaultView }: ClientPortalProps) {
       {/* Header - Hidden on mobile when in discover mode */}
       <header className={`sticky top-0 z-40 ${currentView === 'discover' ? 'hidden sm:block' : ''}`} style={{ background: 'var(--bx-solid)', borderBottom: '1px solid var(--bx-line)', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          {/* Left side - Hamburger Menu */}
-          <motion.button
-            onClick={() => setShowMenu(!showMenu)}
-            className="p-2 rounded-full"
-            style={{ color: 'var(--bx-ink)', background: 'none', border: 'none', cursor: 'pointer' }}
-            whileHover={{ scale: 1.05, background: 'var(--bx-card-2)' }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {showMenu ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
-          </motion.button>
+          {/* Left spacer */}
+          <div style={{ width: 44 }} />
 
           {/* Center - Logo */}
           <Logo textColor="var(--bx-ink)" />
@@ -2111,128 +2101,7 @@ export function ClientPortal({ onLogout, defaultView }: ClientPortalProps) {
           )}
         </AnimatePresence>
 
-        {/* Menu Dropdown */}
-        <AnimatePresence>
-          {showMenu && (
-            <motion.div
-              key="menu-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowMenu(false)}
-              style={{ position: 'fixed', inset: 0, zIndex: 999, background: 'rgba(0,0,0,0.5)' }}
-            />
-          )}
-          {showMenu && (
-            <motion.div
-              key="menu-panel"
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              style={{
-                position: 'fixed', top: 0, left: 0, bottom: 0,
-                width: 320, maxWidth: '85vw', zIndex: 1000,
-                background: 'var(--bx-solid)', boxShadow: 'var(--bx-shadow-lg)',
-                borderRight: '1px solid var(--bx-line)',
-                backdropFilter: 'blur(24px) saturate(160%)', WebkitBackdropFilter: 'blur(24px) saturate(160%)',
-              }}
-              >
-                <div className="flex flex-col h-full">
-                  <div style={{ padding: 24, borderBottom: '1px solid var(--bx-line)' }}>
-                    <div className="flex items-center justify-between mb-4">
-                      <Logo textColor="var(--bx-ink)" />
-                      <button
-                        onClick={() => setShowMenu(false)}
-                        style={{ padding: 8, borderRadius: '50%', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--bx-ink)' }}
-                      >
-                        <X className="w-6 h-6" />
-                      </button>
-                    </div>
-                    <div>
-                      <div className="bx__eyebrow">Navigation</div>
-                      <h3 style={{ fontWeight: 700, fontSize: 18, color: 'var(--bx-ink)' }}>Client Account</h3>
-                    </div>
-                  </div>
 
-                  <div style={{ padding: 16 }}>
-                    <div className="bx__list">
-                      {[
-                        { icon: User, label: 'Profile', view: 'myProfile' },
-                        { icon: Briefcase, label: 'My Jobs', view: 'myJobs' },
-                        { icon: Wallet, label: 'Wallet', view: 'wallet' },
-                        { icon: HelpCircle, label: 'Help & Support', view: 'support' },
-                        { icon: Settings, label: 'Settings', view: null },
-                      ].map((item) => {
-                        const isActive = currentView === item.view;
-                        return (
-                          <button
-                            key={item.label}
-                            className="bx__listrow"
-                            onClick={() => {
-                              if (item.view) { setCurrentView(item.view as ViewType); }
-                              else { setCurrentView('myProfile'); }
-                              setShowMenu(false);
-                            }}
-                            style={{ background: isActive ? 'rgba(var(--bx-accent-rgb),0.08)' : 'none' }}
-                          >
-                            <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14 }}>
-                              <item.icon className="w-4 h-4" />
-                            </span>
-                            <span className="bx__lr-main">
-                              <span className="bx__lr-title">{item.label}</span>
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
-                      <button
-                        onClick={() => { onLogout(); setShowMenu(false); }}
-                        className="bx__listrow"
-                        style={{ color: 'var(--bx-accent-3)' }}
-                      >
-                        <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14, background: 'rgba(225,29,107,0.16)', boxShadow: 'none' }}>
-                          <LogOut className="w-4 h-4" style={{ color: 'var(--bx-accent-3)' }} />
-                        </span>
-                        <span className="bx__lr-main">
-                          <span className="bx__lr-title" style={{ color: 'var(--bx-accent-3)' }}>Logout</span>
-                        </span>
-                      </button>
-                    </div>
-
-                    {/* Theme Accent Colour Picker */}
-                    <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
-                      <div className="bx__eyebrow" style={{ padding: '0 12px', marginBottom: 10 }}>Theme Accent</div>
-                      <div style={{ display: 'flex', gap: 8, padding: '0 12px', flexWrap: 'wrap' }}>
-                        {palettes.map(p => {
-                          const active = accent.id === p.id
-                          return (
-                            <button
-                              key={p.id}
-                              onClick={() => setAccent(p.id as any)}
-                              title={p.label}
-                              style={{
-                                width: 38, height: 38, borderRadius: '50%', border: active ? '3px solid var(--bx-ink)' : '2px solid var(--bx-line)',
-                                background: p.accent, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                transition: 'border-color 0.2s, transform 0.2s', transform: active ? 'scale(1.15)' : 'scale(1)',
-                              }}
-                            >
-                              {active && <Check size={16} color="#fff" strokeWidth={3} />}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      <div style={{ padding: '8px 12px 0', fontSize: 11, color: 'var(--bx-faint)', letterSpacing: '0.02em' }}>
-                        {accent.label}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-          )}
-        </AnimatePresence>
       </header>
 
       {/* Main Content */}
@@ -2331,13 +2200,76 @@ export function ClientPortal({ onLogout, defaultView }: ClientPortalProps) {
               />
             )}
             {currentView === 'myProfile' && (
-              <ClientProfile
-                onBack={() => setCurrentView('dashboard')}
-                onProfileUpdated={() => {
-                  // Refresh the profile in this component's useAuth instance
-                  refreshProfile();
-                }}
-              />
+              <div className="h-full overflow-y-auto" style={{ paddingBottom: 100 }}>
+                <ClientProfile
+                  onBack={() => setCurrentView('dashboard')}
+                  onProfileUpdated={() => refreshProfile()}
+                />
+
+                <div style={{ padding: '0 16px' }}>
+                  <div className="bx__list">
+                    {[
+                      { icon: Briefcase, label: 'My Jobs', view: 'myJobs' as ViewType },
+                      { icon: Wallet, label: 'Wallet', view: 'wallet' as ViewType },
+                      { icon: HelpCircle, label: 'Help & Support', view: 'support' as ViewType },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="bx__listrow"
+                        onClick={() => setCurrentView(item.view)}
+                      >
+                        <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14 }}>
+                          <item.icon className="w-4 h-4" />
+                        </span>
+                        <span className="bx__lr-main">
+                          <span className="bx__lr-title">{item.label}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
+                    <div className="bx__eyebrow" style={{ padding: '0 12px', marginBottom: 10 }}>Theme Accent</div>
+                    <div style={{ display: 'flex', gap: 8, padding: '0 12px', flexWrap: 'wrap' }}>
+                      {palettes.map(p => {
+                        const active = accent.id === p.id
+                        return (
+                          <button
+                            key={p.id}
+                            onClick={() => setAccent(p.id as any)}
+                            title={p.label}
+                            style={{
+                              width: 38, height: 38, borderRadius: '50%', border: active ? '3px solid var(--bx-ink)' : '2px solid var(--bx-line)',
+                              background: p.accent, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              transition: 'border-color 0.2s, transform 0.2s', transform: active ? 'scale(1.15)' : 'scale(1)',
+                            }}
+                          >
+                            {active && <Check size={16} color="#fff" strokeWidth={3} />}
+                          </button>
+                        )
+                      })}
+                    </div>
+                    <div style={{ padding: '8px 12px 0', fontSize: 11, color: 'var(--bx-faint)', letterSpacing: '0.02em' }}>
+                      {accent.label}
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
+                    <button
+                      onClick={() => onLogout()}
+                      className="bx__listrow"
+                      style={{ color: 'var(--bx-accent-3)' }}
+                    >
+                      <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14, background: 'rgba(225,29,107,0.16)', boxShadow: 'none' }}>
+                        <LogOut className="w-4 h-4" style={{ color: 'var(--bx-accent-3)' }} />
+                      </span>
+                      <span className="bx__lr-main">
+                        <span className="bx__lr-title" style={{ color: 'var(--bx-accent-3)' }}>Logout</span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
             {currentView === 'wallet' && renderWallet()}
             {currentView === 'support' && (
@@ -2357,6 +2289,7 @@ export function ClientPortal({ onLogout, defaultView }: ClientPortalProps) {
           { icon: Heart, view: 'discover' as ViewType },
           { icon: MessageSquare, view: 'matches' as ViewType },
           { icon: Bookmark, view: 'saved' as ViewType },
+          { icon: User, view: 'myProfile' as ViewType },
         ].map((item) => {
           const active = currentView === item.view && !selectedChat;
           return (

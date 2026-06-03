@@ -7,7 +7,6 @@ import {
   DollarSign,
   Briefcase,
   Bell,
-  Menu,
   X,
   User,
   Settings,
@@ -135,7 +134,6 @@ export function FreelancerPortal({ onLogout, defaultView }: FreelancerPortalProp
   const swipeNopeOp = useTransform(swipeX, [-150, -40], [1, 0]);
   const [swipeExit, setSwipeExit] = useState(0);
   const [swipeDir, setSwipeDir] = useState<'left' | 'right' | null>(null);
-  const [showMenu, setShowMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [selectedChat, _setSelectedChat] = useState<any>(null);
   const setSelectedChat = useCallback((matchOrFn: any) => {
@@ -1787,16 +1785,8 @@ export function FreelancerPortal({ onLogout, defaultView }: FreelancerPortalProp
       {/* Header */}
       <header className={`sticky top-0 z-40 ${currentView === 'discover' ? 'hidden sm:block' : ''}`} style={{ background: 'var(--bx-solid)', borderBottom: '1px solid var(--bx-line)', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-          {/* Left - Hamburger Menu */}
-          <motion.button
-            onClick={() => setShowMenu(!showMenu)}
-            className="p-2 rounded-full transition-colors"
-            style={{ color: 'var(--bx-ink)', background: 'none', border: 'none', cursor: 'pointer' }}
-            whileHover={{ scale: 1.05, background: 'var(--bx-card-2)' }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {showMenu ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
-          </motion.button>
+          {/* Left spacer */}
+          <div style={{ width: 44 }} />
 
           {/* Center - Logo */}
           <Logo textColor="var(--bx-ink)" />
@@ -1930,145 +1920,7 @@ export function FreelancerPortal({ onLogout, defaultView }: FreelancerPortalProp
           )}
         </AnimatePresence>
 
-        {/* Menu Dropdown */}
-        <AnimatePresence>
-          {showMenu && (
-            <>
-              {/* Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setShowMenu(false)}
-                className="fixed inset-0 bg-black/50 z-40"
-              />
-              
-              {/* Slide-in Menu */}
-              <motion.div
-                initial={{ x: '-100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '-100%' }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] z-50"
-                style={{ background: 'var(--bx-solid)', boxShadow: 'var(--bx-shadow-lg)', borderRight: '1px solid var(--bx-line)', backdropFilter: 'blur(24px) saturate(160%)', WebkitBackdropFilter: 'blur(24px) saturate(160%)' }}
-              >
-                <div className="flex flex-col h-full">
-                  {/* Header */}
-                  <div className="p-6" style={{ borderBottom: '1px solid var(--bx-line)' }}>
-                    <div className="flex items-center justify-between mb-4">
-                      <Logo textColor="var(--bx-ink)" />
-                      <button
-                        onClick={() => setShowMenu(false)}
-                        className="p-2 rounded-full transition-colors"
-                        style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--bx-ink)' }}
-                      >
-                        <X className="w-6 h-6" />
-                      </button>
-                    </div>
-                    <div>
-                      <div className="bx__eyebrow">Navigation</div>
-                      <h3 className="font-bold text-lg" style={{ color: 'var(--bx-ink)' }}>Freelancer Account</h3>
-                    </div>
-                  </div>
 
-                  {/* Menu Items */}
-                  <div className="p-4">
-                    <div className="bx__list">
-                      {[
-                        { icon: User, label: 'Profile', action: () => setCurrentView('myProfile'), view: 'myProfile' },
-                        { icon: Sparkles, label: 'My Skills', action: () => setCurrentView('mySkills'), view: 'mySkills' },
-                        { icon: Wallet, label: 'Wallet', action: () => setCurrentView('wallet'), view: 'wallet' },
-                        { icon: HelpCircle, label: 'Help & Support', action: () => setCurrentView('support'), view: 'support' },
-                        { icon: Settings, label: 'Settings', action: () => setCurrentView('myProfile'), view: null },
-                      ].map((item) => {
-                        const isActive = currentView === item.view;
-                        return (
-                          <button
-                            key={item.label}
-                            onClick={() => {
-                              item.action();
-                              setShowMenu(false);
-                            }}
-                            className="bx__listrow"
-                            style={{ background: isActive ? 'rgba(var(--bx-accent-rgb),0.08)' : 'none' }}
-                          >
-                            <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14 }}>
-                              <item.icon className="w-4 h-4" />
-                            </span>
-                            <span className="bx__lr-main">
-                              <span className="bx__lr-title">{item.label}</span>
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* Theme Toggle */}
-                    <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
-                      <button
-                        onClick={() => toggleTheme()}
-                        className="bx__listrow"
-                      >
-                        <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 16, background: 'var(--bx-card-2)', color: isDark ? '#f59e0b' : '#6366f1', boxShadow: 'none' }}>
-                          {isDark ? '☀' : '☾'}
-                        </span>
-                        <span className="bx__lr-main">
-                          <span className="bx__lr-title">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
-                        </span>
-                      </button>
-                    </div>
-
-                    {/* Accent Colour */}
-                    <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
-                      <div className="bx__eyebrow" style={{ padding: '0 12px', marginBottom: 10 }}>Theme Accent</div>
-                      <div style={{ display: 'flex', gap: 8, padding: '0 12px', flexWrap: 'wrap' }}>
-                        {palettes.map(p => {
-                          const active = accent.id === p.id
-                          return (
-                            <button
-                              key={p.id}
-                              onClick={() => setAccent(p.id as any)}
-                              title={p.label}
-                              style={{
-                                width: 38, height: 38, borderRadius: '50%', border: active ? '3px solid var(--bx-ink)' : '2px solid var(--bx-line)',
-                                background: p.accent, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                transition: 'border-color 0.2s, transform 0.2s', transform: active ? 'scale(1.15)' : 'scale(1)',
-                              }}
-                            >
-                              {active && <Check size={16} color="#fff" strokeWidth={3} />}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      <div style={{ padding: '8px 12px 0', fontSize: 11, color: 'var(--bx-faint)', letterSpacing: '0.02em' }}>
-                        {accent.label}
-                      </div>
-                    </div>
-
-                    {/* Logout Button - Higher in menu */}
-                    <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
-                      <button
-                        onClick={() => {
-                          onLogout();
-                          setShowMenu(false);
-                        }}
-                        className="bx__listrow"
-                        style={{ color: 'var(--bx-accent-3)' }}
-                      >
-                        <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14, background: 'rgba(225,29,107,0.16)', boxShadow: 'none' }}>
-                          <LogOut className="w-4 h-4" style={{ color: 'var(--bx-accent-3)' }} />
-                        </span>
-                        <span className="bx__lr-main">
-                          <span className="bx__lr-title" style={{ color: 'var(--bx-accent-3)' }}>Logout</span>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </header>
 
       {/* Main Content */}
@@ -2120,10 +1972,90 @@ export function FreelancerPortal({ onLogout, defaultView }: FreelancerPortalProp
             {currentView === 'saved' && renderSaved()}
             {currentView === 'profileDetail' && renderProfileDetail()}
             {currentView === 'myProfile' && (
-              <FreelancerProfile
-                onBack={() => setCurrentView('dashboard')}
-                onProfileUpdated={() => refreshProfile()}
-              />
+              <div className="h-full overflow-y-auto" style={{ paddingBottom: 100 }}>
+                <FreelancerProfile
+                  onBack={() => setCurrentView('dashboard')}
+                  onProfileUpdated={() => refreshProfile()}
+                />
+
+                <div style={{ padding: '0 16px' }}>
+                  <div className="bx__list">
+                    {[
+                      { icon: Sparkles, label: 'My Skills', view: 'mySkills' as ViewType },
+                      { icon: Wallet, label: 'Wallet', view: 'wallet' as ViewType },
+                      { icon: HelpCircle, label: 'Help & Support', view: 'support' as ViewType },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="bx__listrow"
+                        onClick={() => setCurrentView(item.view)}
+                      >
+                        <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14 }}>
+                          <item.icon className="w-4 h-4" />
+                        </span>
+                        <span className="bx__lr-main">
+                          <span className="bx__lr-title">{item.label}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
+                    <button
+                      onClick={() => toggleTheme()}
+                      className="bx__listrow"
+                    >
+                      <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 16, background: 'var(--bx-card-2)', color: isDark ? '#f59e0b' : '#6366f1', boxShadow: 'none' }}>
+                        {isDark ? '☀' : '☾'}
+                      </span>
+                      <span className="bx__lr-main">
+                        <span className="bx__lr-title">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+                      </span>
+                    </button>
+                  </div>
+
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
+                    <div className="bx__eyebrow" style={{ padding: '0 12px', marginBottom: 10 }}>Theme Accent</div>
+                    <div style={{ display: 'flex', gap: 8, padding: '0 12px', flexWrap: 'wrap' }}>
+                      {palettes.map(p => {
+                        const active = accent.id === p.id
+                        return (
+                          <button
+                            key={p.id}
+                            onClick={() => setAccent(p.id as any)}
+                            title={p.label}
+                            style={{
+                              width: 38, height: 38, borderRadius: '50%', border: active ? '3px solid var(--bx-ink)' : '2px solid var(--bx-line)',
+                              background: p.accent, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              transition: 'border-color 0.2s, transform 0.2s', transform: active ? 'scale(1.15)' : 'scale(1)',
+                            }}
+                          >
+                            {active && <Check size={16} color="#fff" strokeWidth={3} />}
+                          </button>
+                        )
+                      })}
+                    </div>
+                    <div style={{ padding: '8px 12px 0', fontSize: 11, color: 'var(--bx-faint)', letterSpacing: '0.02em' }}>
+                      {accent.label}
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--bx-line)' }}>
+                    <button
+                      onClick={() => onLogout()}
+                      className="bx__listrow"
+                      style={{ color: 'var(--bx-accent-3)' }}
+                    >
+                      <span className="bx__av" style={{ width: 38, height: 38, borderRadius: 11, fontSize: 14, background: 'rgba(225,29,107,0.16)', boxShadow: 'none' }}>
+                        <LogOut className="w-4 h-4" style={{ color: 'var(--bx-accent-3)' }} />
+                      </span>
+                      <span className="bx__lr-main">
+                        <span className="bx__lr-title" style={{ color: 'var(--bx-accent-3)' }}>Logout</span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
             {currentView === 'mySkills' && (
               <MySkillsView
@@ -2178,6 +2110,7 @@ export function FreelancerPortal({ onLogout, defaultView }: FreelancerPortalProp
           { icon: Zap, view: 'discover' as ViewType },
           { icon: MessageSquare, view: 'matches' as ViewType },
           { icon: Bookmark, view: 'saved' as ViewType },
+          { icon: User, view: 'myProfile' as ViewType },
         ].map((item) => (
           <button
             key={item.view}
