@@ -4208,7 +4208,7 @@ export function AdminPortal({ onLogout, defaultView }: AdminPortalProps) {
   return (
     <div className="bx min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-40" style={{ background: 'var(--bx-solid)', borderBottom: '1px solid var(--bx-line)' }}>
+      <header className="sticky top-0 z-40" style={{ background: 'var(--bx-solid)', borderBottom: '1px solid var(--bx-line)', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           {/* Left - Hamburger Menu */}
           <motion.button

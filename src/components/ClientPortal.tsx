@@ -1961,7 +1961,7 @@ export function ClientPortal({ onLogout, defaultView }: ClientPortalProps) {
     <div className="bx min-h-screen flex flex-col">
       <Celebration show={celebrate} onDone={() => setCelebrate(false)} />
       {/* Header - Hidden on mobile when in discover mode */}
-      <header className={`sticky top-0 z-40 ${currentView === 'discover' ? 'hidden sm:block' : ''}`} style={{ background: 'var(--bx-solid)', borderBottom: '1px solid var(--bx-line)' }}>
+      <header className={`sticky top-0 z-40 ${currentView === 'discover' ? 'hidden sm:block' : ''}`} style={{ background: 'var(--bx-solid)', borderBottom: '1px solid var(--bx-line)', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <div className="px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           {/* Left side - Hamburger Menu */}
           <motion.button

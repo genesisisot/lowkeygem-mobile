@@ -198,7 +198,7 @@
    Discover-as-profile — one scrollable page (gallery → info)
    ============================================================ */
 .disc2 { position: relative; min-height: 100%; }
-.disc2__bar { position: sticky; top: 0; z-index: 20; background: var(--bx-solid); border-bottom: 1px solid var(--bx-line); padding: 13px 16px 12px; }
+.disc2__bar { position: sticky; top: 0; z-index: 20; background: var(--bx-solid); border-bottom: 1px solid var(--bx-line); padding: calc(13px + env(safe-area-inset-top, 0px)) 16px 12px; }
 
 /* draggable swipe layer (page scrolls vertically, drag = horizontal) */
 .disc2__swipe { position: relative; touch-action: pan-y; cursor: grab; }

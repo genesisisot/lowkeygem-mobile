@@ -78,7 +78,7 @@ export function ClientLayout({ activeView, onLogout, children }: ClientLayoutPro
       {/* Header */}
       <header
         className={`sticky top-0 z-40 ${activeView === 'discover' ? 'hidden sm:block' : ''}`}
-        style={{ background: 'var(--bx-card)', borderBottom: '1px solid var(--bx-line)', backdropFilter: 'blur(14px) saturate(150%)' }}
+        style={{ background: 'var(--bx-card)', borderBottom: '1px solid var(--bx-line)', backdropFilter: 'blur(14px) saturate(150%)', paddingTop: 'env(safe-area-inset-top, 0px)' }}
       >
         <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <motion.button
