@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
-import { Routes, Route, useNavigate, useParams } from 'react-router-dom'
-import { Capacitor } from '@capacitor/core'
+import { Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import { useCapacitor } from './hooks/useCapacitor'
 import { authService } from './services/auth'
 import { ProtectedRoute } from './ProtectedRoute'
 import { ThemeProvider } from './hooks/useTheme'
-import { Landing } from './pages/Landing'
 import { Login } from './components/Login'
 import { Onboarding } from './components/Onboarding'
 import { ClientPortal } from './components/ClientPortal'
@@ -15,21 +13,6 @@ import { AdminPortal } from './components/AdminPortal'
 import { ClientChatPage } from './pages/ClientChatPage'
 import { FreelancerChatPage } from './pages/FreelancerChatPage'
 import './index.css'
-
-const isNative = Capacitor.isNativePlatform()
-
-function LandingOrRedirect() {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (isNative) {
-      navigate('/login', { replace: true })
-    }
-  }, [navigate])
-
-  if (isNative) return null
-  return <Landing />
-}
 
 function LoginPage() {
   const { user, userProfile } = useAuth()
@@ -43,7 +26,7 @@ function LoginPage() {
 
   return (
     <Login
-      onClose={() => navigate('/')}
+      onClose={() => navigate('/login')}
       onSignUp={() => navigate('/signup')}
       onLoginSuccess={(userType) => {
         navigate(`/${userType}/dashboard`)
@@ -145,7 +128,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <Routes>
-        <Route path="/" element={<LandingOrRedirect />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/client/chat/:matchId" element={<ProtectedRoute role="client"><ClientChatPage /></ProtectedRoute>} />
@@ -156,7 +139,7 @@ export default function App() {
         <Route path="/freelancer" element={<ProtectedRoute role="freelancer"><FreelancerRoute /></ProtectedRoute>} />
         <Route path="/admin/:view" element={<ProtectedRoute role="admin"><AdminRoute /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute role="admin"><AdminRoute /></ProtectedRoute>} />
-        <Route path="*" element={<LandingOrRedirect />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </ThemeProvider>
   )

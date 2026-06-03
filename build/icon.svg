@@ -1,0 +1,34 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Black background -->
+  <rect width="512" height="512" fill="#000000"/>
+
+  <!-- Gem shape centered -->
+  <g transform="translate(256, 256) scale(5)">
+    <!-- Top triangle -->
+    <path d="M0 -36L16 -20H-16L0 -36Z" fill="url(#gemGradient1)" stroke="#970747" stroke-width="1.5" stroke-linejoin="bevel"/>
+
+    <!-- Main body -->
+    <path d="M-16 -20L-28 -8L0 36L28 -8L16 -20H-16Z" fill="url(#gemGradient2)" stroke="#970747" stroke-width="1.5" stroke-linejoin="bevel"/>
+
+    <!-- Inner facets -->
+    <path d="M0 -20V36" stroke="#7a0539" stroke-width="1" opacity="0.6"/>
+    <path d="M-16 -20L0 36L16 -20" stroke="#7a0539" stroke-width="1" opacity="0.4"/>
+    <path d="M-28 -8L0 -20L28 -8" stroke="#b5295e" stroke-width="1" opacity="0.5"/>
+
+    <!-- Sparkles -->
+    <circle cx="-8" cy="-28" r="3" fill="white" opacity="0.9"/>
+    <circle cx="12" cy="-4" r="2.5" fill="white" opacity="0.7"/>
+  </g>
+
+  <defs>
+    <linearGradient id="gemGradient1" x1="0" y1="-36" x2="0" y2="-20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#d64c7a"/>
+      <stop offset="100%" stop-color="#b5295e"/>
+    </linearGradient>
+    <linearGradient id="gemGradient2" x1="0" y1="-20" x2="0" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#b5295e"/>
+      <stop offset="50%" stop-color="#970747"/>
+      <stop offset="100%" stop-color="#7a0539"/>
+    </linearGradient>
+  </defs>
+</svg>

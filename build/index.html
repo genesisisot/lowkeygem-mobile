@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <title>Lowkey Gem</title>
+
+    <meta name="theme-color" content="#970747" />
+    <meta name="description" content="Nigeria's fair freelancer marketplace" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Lowkey Gem" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Effra:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Effra:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Effra:wght@400;500;600;700;800&display=swap" /></noscript>
+
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <script>
+      (function() {
+        var d = document.documentElement;
+        var theme = localStorage.getItem('lowkey-theme');
+        if (!theme) {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        d.setAttribute('data-bx-theme', theme);
+        try { document.querySelectorAll('.bx').forEach(function(el) { el.setAttribute('data-bx-theme', theme); }); } catch(e) {}
+        try { document.querySelectorAll('.dx').forEach(function(el) { el.setAttribute('data-bx-theme', theme); }); } catch(e) {}
+        var accent = localStorage.getItem('lowkey-accent');
+        if (accent) {
+          d.setAttribute('data-bx-accent', accent);
+          try { document.querySelectorAll('.bx').forEach(function(el) { el.setAttribute('data-bx-accent', accent); }); } catch(e) {}
+        try { document.querySelectorAll('.dx').forEach(function(el) { el.setAttribute('data-bx-accent', accent); }); } catch(e) {}
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-CFYIqynT.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-three-CInEObEx.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-motion-MTZsUW-D.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-icons-Bhb6eq58.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CoERnDP_.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+  

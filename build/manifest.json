@@ -1,0 +1,25 @@
+{
+  "name": "Lowkey Gem - Nigeria's Fair Freelancer Marketplace",
+  "short_name": "Lowkey Gem",
+  "description": "Nigeria's first freelancer marketplace designed for equal discovery. No ranking bias. No pay-to-win. Just pure talent, fairly showcased.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#970747",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "productivity"]
+}
